@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-page">
+        <div class="login-container">
+            <div class="login-card card">
+                <div class="card__body">
+                    <h1>Project Manager</h1>
+                    <p class="login-subtitle">Sign in to your account</p>
+                    
+                    <form id="loginForm" class="login-form">
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="password">Password</label>
+                            <input type="password" id="password" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn--primary btn--full-width">Sign In</button>
+                    </form>
+                    
+                    <div class="demo-accounts">
+                        <h3>Demo Accounts</h3>
+                        <div class="demo-users">
+                            <div class="demo-user" data-email="john@example.com">
+                                <span class="demo-avatar">👨‍💼</span>
+                                <div>
+                                    <div class="demo-name">John Doe (Admin)</div>
+                                    <div class="demo-email">john@example.com</div>
+                                </div>
+                            </div>
+                            <div class="demo-user" data-email="jane@example.com">
+                                <span class="demo-avatar">👩‍💻</span>
+                                <div>
+                                    <div class="demo-name">Jane Smith</div>
+                                    <div class="demo-email">jane@example.com</div>
+                                </div>
+                            </div>
+                            <div class="demo-user" data-email="mike@example.com">
+                                <span class="demo-avatar">👨‍🎨</span>
+                                <div>
+                                    <div class="demo-name">Mike Johnson</div>
+                                    <div class="demo-email">mike@example.com</div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="demo-note">Password for all demo accounts: <code>demo123</code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboardPage" class="dashboard-page hidden">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-content">
+                <h1 class="header-title">Project Manager</h1>
+                <div class="header-actions">
+                    <div class="user-menu">
+                        <div class="user-info" id="userInfo">
+                            <span class="user-avatar" id="userAvatar">👨‍💼</span>
+                            <span class="user-name" id="userName">John Doe</span>
+                        </div>
+                        <button class="btn btn--secondary btn--sm" id="logoutBtn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+            <div class="dashboard-container">
+                <div class="dashboard-header">
+                    <h2>Your Projects</h2>
+                    <button class="btn btn--primary" id="createProjectBtn">
+                        <span>+ Create New Project</span>
+                    </button>
+                </div>
+
+                <div class="projects-grid" id="projectsGrid">
+                    <!-- Projects will be dynamically inserted here -->
+                </div>
+
+                <div class="recent-activity">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-feed" id="activityFeed">
+                        <!-- Activity items will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Kanban Board -->
+    <div id="kanbanPage" class="kanban-page hidden">
+        <!-- Header -->
+        <header class="kanban-header">
+            <div class="kanban-header-content">
+                <div class="kanban-nav">
+                    <button class="btn btn--secondary btn--sm" id="backToDashboard">← Back to Dashboard</button>
+                    <h1 class="kanban-title" id="kanbanTitle">Project Name</h1>
+                </div>
+                <div class="kanban-actions">
+                    <input type="text" class="form-control search-input" id="taskSearch" placeholder="Search tasks...">
+                    <select class="form-control filter-select" id="assigneeFilter">
+                        <option value="">All Assignees</option>
+                    </select>
+                    <button class="btn btn--primary btn--sm" id="addTaskBtn">+ Add Task</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="kanban-main">
+            <div class="kanban-board" id="kanbanBoard">
+                <!-- Columns will be dynamically inserted here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Create Project Modal -->
+    <div id="createProjectModal" class="modal hidden">
+        <div class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Create New Project</h3>
+                    <button class="modal-close" data-modal="createProjectModal">×</button>
+                </div>
+                <div class="modal-body">
+                    <form id="createProjectForm">
+                        <div class="form-group">
+                            <label class="form-label" for="projectName">Project Name</label>
+                            <input type="text" id="projectName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="projectDescription">Description</label>
+                            <textarea id="projectDescription" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="projectColor">Color Theme</label>
+                            <div class="color-picker">
+                                <input type="color" id="projectColor" class="form-control" value="#4CAF50">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn--secondary" data-modal="createProjectModal">Cancel</button>
+                    <button type="submit" form="createProjectForm" class="btn btn--primary">Create Project</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div id="taskModal" class="modal hidden">
+        <div class="modal-overlay">
+            <div class="modal-content task-modal-content">
+                <div class="modal-header">
+                    <h3 id="taskModalTitle">Task Details</h3>
+                    <button class="modal-close" data-modal="taskModal">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="task-details">
+                        <div class="task-form">
+                            <div class="form-group">
+                                <label class="form-label" for="taskTitle">Title</label>
+                                <input type="text" id="taskTitle" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="taskDescription">Description</label>
+                                <textarea id="taskDescription" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="taskAssignee">Assignee</label>
+                                    <select id="taskAssignee" class="form-control">
+                                        <option value="">Unassigned</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="taskPriority">Priority</label>
+                                    <select id="taskPriority" class="form-control">
+                                        <option value="low">Low</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="high">High</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="taskDueDate">Due Date</label>
+                                    <input type="date" id="taskDueDate" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="taskColumn">Status</label>
+                                    <select id="taskColumn" class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="taskLabels">Labels (comma separated)</label>
+                                <input type="text" id="taskLabels" class="form-control" placeholder="e.g. frontend, urgent, bug">
+                            </div>
+                        </div>
+
+                        <div class="task-actions">
+                            <button type="button" class="btn btn--primary" id="saveTaskBtn">Save Task</button>
+                            <button type="button" class="btn btn--outline" id="deleteTaskBtn">Delete Task</button>
+                        </div>
+                    </div>
+
+                    <div class="task-comments">
+                        <h4>Comments</h4>
+                        <div class="comments-list" id="commentsList">
+                            <!-- Comments will be dynamically inserted here -->
+                        </div>
+                        <div class="add-comment">
+                            <textarea id="newComment" class="form-control" rows="2" placeholder="Add a comment..."></textarea>
+                            <button class="btn btn--secondary btn--sm" id="addCommentBtn">Add Comment</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Real-time Notifications -->
+    <div id="notifications" class="notifications-container">
+        <!-- Notifications will be dynamically inserted here -->
+    </div>
+
+    <!-- Connection Status -->
+    <div id="connectionStatus" class="connection-status">
+        <span class="status-indicator connected"></span>
+        <span class="status-text">Connected</span>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
